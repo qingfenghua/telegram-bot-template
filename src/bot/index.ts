@@ -15,6 +15,19 @@ import { hydrate } from '@grammyjs/hydrate'
 import { hydrateReply, parseMode } from '@grammyjs/parse-mode'
 import { sequentialize } from '@grammyjs/runner'
 import { MemorySessionStorage, Bot as TelegramBot } from 'grammy'
+import { addFeature } from '#root/bot/features/add.js'
+import { pushFeature } from '#root/bot/features/push.js'
+import { userFeature } from '#root/bot/features/usersinfo.js'
+import { connectDatabase } from "#root/database/mongodb.js";
+import 'dotenv/config'
+import { userpFeature } from '#root/bot/features/pushuser.js'
+import { addLinkFeature } from '#root/bot/features/addlink.js'
+import { showLinksFeature } from '#root/bot/features/links.js'
+import { link } from 'fs'
+import { AutoLinkFeature } from '#root/bot/features/autolinks.js'
+import { addAutoLinkFeature } from '#root/bot/features/addautolink.js'
+import { trcFeature } from '#root/bot/features/trc.js'
+await connectDatabase(process.env.DB_URI!);
 
 interface Dependencies {
   config: Config
@@ -63,11 +76,20 @@ export function createBot(token: string, dependencies: Dependencies, botConfig?:
   // Handlers
   protectedBot.use(welcomeFeature)
   protectedBot.use(adminFeature)
-  if (isMultipleLocales)
-    protectedBot.use(languageFeature)
+  protectedBot.use(addFeature)
+  protectedBot.use(pushFeature)
+  protectedBot.use(userpFeature) 
+  protectedBot.use(userFeature)
+  protectedBot.use(addLinkFeature)
+  protectedBot.use(showLinksFeature)
+  protectedBot.use(AutoLinkFeature)
+  protectedBot.use(addAutoLinkFeature)
+  protectedBot.use(trcFeature)
+  // if (isMultipleLocales)
+  //   protectedBot.use(languageFeature)
 
   // must be the last handler
-  protectedBot.use(unhandledFeature)
+  // protectedBot.use(unhandledFeature)
 
   return bot
 }

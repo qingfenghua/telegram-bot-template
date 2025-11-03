@@ -6,6 +6,8 @@ language =
     .description = Change language
 setcommands =
     .description = Set bot commands
+add =
+    .description = add a new command
 
 ## Welcome Feature
 

@@ -8,7 +8,6 @@ import { Composer } from 'grammy'
 const composer = new Composer<Context>()
 
 const feature = composer
-  .chatType('private')
   .filter(isAdmin)
 
 feature.command(
